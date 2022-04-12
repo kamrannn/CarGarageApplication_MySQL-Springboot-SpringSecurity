@@ -1,7 +1,6 @@
 package com.app.cargarage.controller;
 
 import com.app.cargarage.dto.ResponseDto;
-import com.app.cargarage.model.Car;
 import com.app.cargarage.model.ScheduleRepairing;
 import com.app.cargarage.service.ScheduleRepairingServiceImpl;
 import org.springframework.web.bind.annotation.*;
