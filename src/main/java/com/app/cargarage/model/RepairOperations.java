@@ -2,10 +2,7 @@ package com.app.cargarage.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -13,6 +10,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "repair_operations")
 public class RepairOperations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

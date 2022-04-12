@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "receipts")
 public class Receipt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

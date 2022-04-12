@@ -10,12 +10,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "parts")
-public class Part {
+@Builder
+@Table(name = "appointments")
+public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private double price;
-    private String name;
-    private int quantity;
+    private String description;
+    @OneToOne(cascade = CascadeType.MERGE)
+    Customer customer;
 }

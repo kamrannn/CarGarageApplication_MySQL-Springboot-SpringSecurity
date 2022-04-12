@@ -11,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Builder
+@Table(name = "car_document")
 public class CarDocument {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
