@@ -22,6 +22,6 @@ public class ScheduleRepairing {
     @JsonProperty("repairing_end_time")
     private LocalDateTime endDateTime;
 
-    @OneToOne(targetEntity = Car.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToOne(targetEntity = Car.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     Car car;
 }

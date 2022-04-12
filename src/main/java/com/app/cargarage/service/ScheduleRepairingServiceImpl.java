@@ -8,6 +8,7 @@ import com.app.cargarage.repository.ScheduleRepairingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,32 @@ public class ScheduleRepairingServiceImpl implements ScheduleRepairingService {
                         .build();
             }
 
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public ResponseDto listOfRepairSchedules() {
+        try {
+            List<ScheduleRepairing> scheduleRepairingList = repairingRepository.findAll();
+            if (scheduleRepairingList.isEmpty()) {
+                return ResponseDto.builder()
+                        .result(scheduleRepairingList)
+                        .message("There is no schedule created yet in the database")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(scheduleRepairingList)
+                        .message("This is the list of repairing schedules that are in the database")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            }
         } catch (Exception e) {
             return ResponseDto.builder()
                     .result(null)

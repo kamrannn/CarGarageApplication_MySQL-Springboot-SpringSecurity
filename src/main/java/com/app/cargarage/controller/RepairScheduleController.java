@@ -21,5 +21,9 @@ public class RepairScheduleController {
         return repairingService.createRepairSchedule(licensePlate, scheduleRepairing);
     }
 
+    @GetMapping("/list")
+    public ResponseDto listOfRepairSchedules() {
+        return repairingService.listOfRepairSchedules();
+    }
 
 }

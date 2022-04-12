@@ -19,13 +19,9 @@ import java.util.List;
 public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("customer_id")
     private long id;
-    @JsonProperty("customer_surname")
     private String surname;
-    @JsonProperty("customer_phone_number")
     private String phoneNumber;
-    @JsonProperty("customer_address")
     private String address;
 
     @OneToMany(targetEntity = Car.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)

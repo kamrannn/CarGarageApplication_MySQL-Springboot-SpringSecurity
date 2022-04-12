@@ -16,9 +16,7 @@ import java.io.Serializable;
 public class Car implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("car_id")
     private long id;
-    @JsonProperty("car_license_plate")
     private String licensePlate;
 
     @OneToOne
