@@ -18,7 +18,12 @@ public class AppointmentController {
     }
 
     @PostMapping("/create")
-    public ResponseDto create(@RequestBody Appointment appointment) {
-        return appointmentService.create(appointment);
+    public ResponseDto create(@RequestBody Appointment appointment, @RequestParam(name = "customer_id") long customerId) {
+        return appointmentService.create(appointment, customerId);
+    }
+
+    @GetMapping("/list")
+    public ResponseDto listOfAppointments() {
+        return appointmentService.listOfAppointments();
     }
 }

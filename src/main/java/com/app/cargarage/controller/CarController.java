@@ -26,6 +26,16 @@ public class CarController {
         return carService.uploadDocument(licensePlate, document);
     }
 
+    @PostMapping("/addRepairingActionsInCar")
+    public ResponseDto addRepairingActionsInCar(@RequestParam(name = "licensePlate") String licensePlate, @RequestParam(name = "operation_id") long repairingOperationId) {
+        return carService.addRepairingActionsInCar(licensePlate, repairingOperationId);
+    }
+
+    @PostMapping("/installPartsInCar")
+    public ResponseDto installPartsInCar(@RequestParam(name = "licensePlate") String licensePlate, @RequestParam(name = "part_id") long partId) {
+        return carService.installPartsInCar(licensePlate, partId);
+    }
+
     @GetMapping("/list")
     public ResponseDto listOfCars() {
         return carService.listOfCars();

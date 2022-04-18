@@ -15,4 +15,8 @@ public interface CarService {
     ResponseDto uploadDocument(String licensePlate, MultipartFile document);
 
     ResponseEntity<byte[]> getDocumentsByCarLicensePlate(String licensePlate);
+
+    ResponseDto addRepairingActionsInCar(String carLicensePlate, long repairingActionId);
+
+    ResponseDto installPartsInCar(String carLicensePlate, long partId);
 }

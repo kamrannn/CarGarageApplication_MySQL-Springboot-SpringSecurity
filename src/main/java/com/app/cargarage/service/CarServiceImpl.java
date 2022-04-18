@@ -3,9 +3,9 @@ package com.app.cargarage.service;
 import com.app.cargarage.dto.ResponseDto;
 import com.app.cargarage.model.Car;
 import com.app.cargarage.model.CarDocument;
-import com.app.cargarage.repository.CarDocumentRepository;
-import com.app.cargarage.repository.CarRepository;
-import com.app.cargarage.repository.CustomerRepository;
+import com.app.cargarage.model.Part;
+import com.app.cargarage.model.RepairOperations;
+import com.app.cargarage.repository.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,11 +22,15 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final CustomerRepository customerRepository;
     private final CarDocumentRepository carDocumentRepository;
+    private final RepairOperationsRepository operationsRepository;
+    private final PartRepository partRepository;
 
-    public CarServiceImpl(CarRepository carRepository, CustomerRepository customerRepository, CarDocumentRepository carDocumentRepository) {
+    public CarServiceImpl(CarRepository carRepository, CustomerRepository customerRepository, CarDocumentRepository carDocumentRepository, RepairOperationsRepository operationsRepository, PartRepository partRepository) {
         this.carRepository = carRepository;
         this.customerRepository = customerRepository;
         this.carDocumentRepository = carDocumentRepository;
+        this.operationsRepository = operationsRepository;
+        this.partRepository = partRepository;
     }
 
     @Override
@@ -83,6 +87,80 @@ public class CarServiceImpl implements CarService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Some error occurred");
+        }
+    }
+
+    @Override
+    public ResponseDto addRepairingActionsInCar(String carLicensePlate, long repairingActionId) {
+        try {
+            Optional<Car> car = carRepository.findCarByLicensePlate(carLicensePlate);
+            if (car.isPresent()) {
+                Optional<RepairOperations> repairOperation = operationsRepository.findById(repairingActionId);
+                if (repairOperation.isPresent()) {
+                    car.get().getRepairOperationsList().add(repairOperation.get());
+                    carRepository.saveAndFlush(car.get());
+                    return ResponseDto.builder()
+                            .result(car.get().getRepairOperationsList())
+                            .message("The repairing action is added in the car repairing-list")
+                            .statusCode(HttpStatus.OK.value())
+                            .build();
+                } else {
+                    return ResponseDto.builder()
+                            .result(null)
+                            .statusCode(HttpStatus.NOT_FOUND.value())
+                            .message("There is no repairing operation against this id")
+                            .build();
+                }
+            } else {
+                return ResponseDto.builder()
+                        .result(null)
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .message("There is no car against this license plate")
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public ResponseDto installPartsInCar(String carLicensePlate, long partId) {
+        try {
+            Optional<Car> car = carRepository.findCarByLicensePlate(carLicensePlate);
+            if (car.isPresent()) {
+                Optional<Part> part = partRepository.findById(partId);
+                if (part.isPresent()) {
+                    car.get().getPartsList().add(part.get());
+                    carRepository.saveAndFlush(car.get());
+                    return ResponseDto.builder()
+                            .result(car.get().getRepairOperationsList())
+                            .message("The part is successfully installed in the car !!")
+                            .statusCode(HttpStatus.OK.value())
+                            .build();
+                } else {
+                    return ResponseDto.builder()
+                            .result(null)
+                            .statusCode(HttpStatus.NOT_FOUND.value())
+                            .message("There is no part in the database against this id")
+                            .build();
+                }
+            } else {
+                return ResponseDto.builder()
+                        .result(null)
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .message("There is no car against this license plate")
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
         }
     }
 
