@@ -24,7 +24,7 @@ public class CarGarageApplication {
                     .fullName("Kamran_Abbasi")
                     .username("admin")
                     .password(encoder.encode("admin"))
-                    .role("admin")
+                    .role("ROLE_ADMIN")
                     .build());
 
             userService.insertUsersOnRuntime(User.builder()
@@ -32,7 +32,7 @@ public class CarGarageApplication {
                     .fullName("Imran_Khan")
                     .username("cashier")
                     .password(encoder.encode("cashier"))
-                    .role("cashier")
+                    .role("ROLE_CASHIER")
                     .build());
 
             userService.insertUsersOnRuntime(User.builder()
@@ -40,7 +40,7 @@ public class CarGarageApplication {
                     .fullName("Justin_Bieber")
                     .username("employee")
                     .password(encoder.encode("employee"))
-                    .role("employee")
+                    .role("ROLE_EMPLOYEE")
                     .build());
         };
     }

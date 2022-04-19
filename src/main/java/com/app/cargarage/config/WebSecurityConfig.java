@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +24,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userServiceImpl")
     @Autowired
     UserDetailsService userDetailsService;
+
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
 
     /**
      * This method is getting used when the user will get login.
@@ -45,22 +61,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-//                .antMatchers("/login/**", "/register/**").permitAll()
-                .anyRequest().authenticated()
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers("/receipts/**", "/repairSchedule/**").hasAnyRole("CASHIER", "ADMIN")
+                .antMatchers("/parts/**", "/repairOperations").hasAnyRole("EMPLOYEE", "ADMIN")
+                .antMatchers("/**").hasRole("ADMIN")
+                .anyRequest()
+                .authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login-error")
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login");
-
-        http.csrf().disable();
-
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .invalidSessionUrl("/login");
+                .httpBasic();
     }
 
     /**
@@ -81,7 +91,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/resources/**", "/static/**");
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
     }
 }
