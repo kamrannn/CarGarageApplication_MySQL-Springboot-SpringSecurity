@@ -6,4 +6,5 @@ import com.app.cargarage.model.RepairOperations;
 public interface RepairOperationsService {
 
     ResponseDto addRepairOperations(RepairOperations repairOperations);
+    ResponseDto listOfRepairOperations();
 }

@@ -137,7 +137,7 @@ public class CarServiceImpl implements CarService {
                     car.get().getPartsList().add(part.get());
                     carRepository.saveAndFlush(car.get());
                     return ResponseDto.builder()
-                            .result(car.get().getRepairOperationsList())
+                            .result(car.get().getPartsList())
                             .message("The part is successfully installed in the car !!")
                             .statusCode(HttpStatus.OK.value())
                             .build();

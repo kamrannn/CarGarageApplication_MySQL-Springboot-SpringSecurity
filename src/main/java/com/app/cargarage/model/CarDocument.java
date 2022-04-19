@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @Entity
 @Builder

@@ -8,7 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -18,10 +17,14 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String status;
+    private String carLicensePlate;
+    private double repairOperationsAmount;
+    private double inspectionAmount;
+    private double partsAmount;
 
-    @OneToMany(targetEntity = RepairOperations.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(targetEntity = RepairOperations.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     List<RepairOperations> repairOperationsList = new ArrayList<>();
 
-    @OneToOne
-    Customer customer;
+    @ManyToMany(targetEntity = Part.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    List<Part> partsList = new ArrayList<>();
 }

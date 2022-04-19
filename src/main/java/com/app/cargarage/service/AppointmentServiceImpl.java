@@ -36,7 +36,6 @@ public class AppointmentServiceImpl implements AppointmentService {
                         .statusCode(HttpStatus.NOT_FOUND.value())
                         .build();
             }
-//            customerRepository.saveAndFlush(appointment.getCustomer());
             return ResponseDto.builder()
                     .result(appointmentRepository.saveAndFlush(appointment))
                     .message("Appointment is successfully created in the database against customer: " + appointment.getCustomer().getSurname())

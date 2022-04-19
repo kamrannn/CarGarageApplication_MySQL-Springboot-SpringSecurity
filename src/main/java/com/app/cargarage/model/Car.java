@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -21,6 +20,7 @@ public class Car implements Serializable {
     private long id;
     @Column(unique = true)
     private String licensePlate;
+    private String repairStatus;
 
     @OneToOne
     CarDocument carDocument;
@@ -36,6 +36,4 @@ public class Car implements Serializable {
 
     @ManyToMany(targetEntity = Part.class, fetch = FetchType.LAZY)
     List<Part> partsList = new ArrayList<>();
-
-
 }
