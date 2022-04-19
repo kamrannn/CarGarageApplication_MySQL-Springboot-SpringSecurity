@@ -9,12 +9,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "parts")
-public class Part {
+@Builder
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private double price;
-    private String name;
-    private int stock;
+    private String fullName;
+    @Column(unique = true)
+    private String username;
+    private String password;
+    private String role;
 }

@@ -74,9 +74,9 @@ public class CarServiceImpl implements CarService {
     public ResponseEntity<byte[]> getDocumentsByCarLicensePlate(String licensePlate) {
         try {
             Optional<Car> car = carRepository.findCarByLicensePlate(licensePlate);
-            String documentName = car.get().getCarDocument().getDocumentName();
 
             if (car.isPresent()) {
+                String documentName = car.get().getCarDocument().getDocumentName();
                 return ResponseEntity.ok()
                         .contentType(MediaType.parseMediaType("application/octet-stream"))
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + documentName + "\"")
@@ -133,8 +133,10 @@ public class CarServiceImpl implements CarService {
             Optional<Car> car = carRepository.findCarByLicensePlate(carLicensePlate);
             if (car.isPresent()) {
                 Optional<Part> part = partRepository.findById(partId);
-                if (part.isPresent()) {
+                if (part.isPresent() && part.get().getStock() > 0) {
                     car.get().getPartsList().add(part.get());
+                    part.get().setStock(part.get().getStock() - 1);
+                    partRepository.save(part.get());
                     carRepository.saveAndFlush(car.get());
                     return ResponseDto.builder()
                             .result(car.get().getPartsList())

@@ -7,4 +7,6 @@ public interface PartService {
     ResponseDto save(Part part);
 
     ResponseDto list();
+
+    ResponseDto changeStockOfPart(long partId, int quantity);
 }

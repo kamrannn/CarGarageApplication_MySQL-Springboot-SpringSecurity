@@ -25,4 +25,10 @@ public class PartController {
     public ResponseDto listOfParts() {
         return partService.list();
     }
+
+    @GetMapping("/changeStockOfPart")
+    public ResponseDto changeStockOfPart(@RequestParam(name = "partId") long partId,
+                                         @RequestParam(name = "quantity") int quantity) {
+        return partService.changeStockOfPart(partId, quantity);
+    }
 }

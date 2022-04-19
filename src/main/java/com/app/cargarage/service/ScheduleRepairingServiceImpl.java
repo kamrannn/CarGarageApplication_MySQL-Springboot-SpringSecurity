@@ -28,6 +28,8 @@ public class ScheduleRepairingServiceImpl implements ScheduleRepairingService {
             Optional<Car> car = carRepository.findCarByLicensePlate(licensePlate);
             if (car.isPresent()) {
                 scheduleRepairing.setCar(car.get());
+                car.get().setRepairStatus("Under Repairing");
+                carRepository.save(car.get());
                 return ResponseDto.builder()
                         .result(repairingRepository.save(scheduleRepairing))
                         .message("The repairing service is successfully scheduled against this car with license plate: " + car.get().getLicensePlate())

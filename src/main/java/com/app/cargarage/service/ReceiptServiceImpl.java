@@ -119,4 +119,31 @@ public class ReceiptServiceImpl implements ReceiptService {
                     .build();
         }
     }
+
+    @Override
+    public ResponseDto changeStatusToPaid(long receiptId) {
+        try {
+            Optional<Receipt> receipt = receiptRepository.findById(receiptId);
+            if (receipt.isPresent()) {
+                receipt.get().setStatus("Paid");
+                return ResponseDto.builder()
+                        .result(receiptRepository.save(receipt.get()))
+                        .statusCode(HttpStatus.OK.value())
+                        .message("There is no receipt generated yet in the database")
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(receipt)
+                        .statusCode(HttpStatus.OK.value())
+                        .message("This is the list of generated receipt in the database")
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
 }
