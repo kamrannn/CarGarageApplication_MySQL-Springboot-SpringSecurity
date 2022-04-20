@@ -2,9 +2,7 @@ package com.app.cargarage;
 
 import com.app.cargarage.model.*;
 import com.app.cargarage.repository.CarRepository;
-import com.app.cargarage.repository.PartRepository;
 import com.app.cargarage.repository.ReceiptRepository;
-import com.app.cargarage.service.PartServiceImpl;
 import com.app.cargarage.service.ReceiptServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;

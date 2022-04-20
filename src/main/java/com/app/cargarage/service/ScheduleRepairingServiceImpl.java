@@ -77,4 +77,14 @@ public class ScheduleRepairingServiceImpl implements ScheduleRepairingService {
                     .build();
         }
     }
+
+    @Override
+    public ResponseDto updateScheduleRepairing(ScheduleRepairing updatedScheduleRepairing) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto deleteScheduleRepairing(long scheduleId) {
+        return null;
+    }
 }

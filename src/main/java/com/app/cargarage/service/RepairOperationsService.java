@@ -7,4 +7,8 @@ public interface RepairOperationsService {
 
     ResponseDto addRepairOperations(RepairOperations repairOperations);
     ResponseDto listOfRepairOperations();
+
+    ResponseDto updateRepairOperation(RepairOperations updatedRepairOperation);
+
+    ResponseDto deleteRepairOperation(long operationId);
 }
