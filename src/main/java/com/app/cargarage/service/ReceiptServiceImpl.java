@@ -47,6 +47,14 @@ public class ReceiptServiceImpl implements ReceiptService {
                     totalPartsInstallationAmount = part.getPrice() + totalPartsInstallationAmount;
                 }
                 receipt.setPartsAmount(totalPartsInstallationAmount);
+
+                receipt.setTotalAmountOfRepairing(receipt.getTotalAmountOfRepairing()
+                        + receipt.getPartsAmount()
+                        + receipt.getInspectionAmount());
+
+                receipt.setTotalAmountOfRepairing(receipt.getTotalAmountOfRepairing()
+                        + (0.21 * receipt.getTotalAmountOfRepairing()));
+
                 return ResponseDto.builder()
                         .result(receiptRepository.save(receipt))
                         .statusCode(HttpStatus.OK.value())
@@ -109,6 +117,62 @@ public class ReceiptServiceImpl implements ReceiptService {
                         .result(receipts)
                         .statusCode(HttpStatus.OK.value())
                         .message("This is the list of generated receipts in the database")
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public ResponseDto deleteReceipt(long receiptId) {
+        try {
+            Optional<Receipt> receipt = receiptRepository.findById(receiptId);
+            if (receipt.isPresent()) {
+                receipt.get().setPartsList(null);
+                receipt.get().setRepairOperationsList(null);
+                receiptRepository.saveAndFlush(receipt.get());
+                receiptRepository.delete(receipt.get());
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("Receipt is successfully deleted from the database.")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("There is no receipt against this id")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public ResponseDto updateReceipt(Receipt receipt) {
+        try {
+            Optional<Receipt> existingReceipt = receiptRepository.findById(receipt.getId());
+            if (existingReceipt.isPresent()) {
+                return ResponseDto.builder()
+                        .result(receiptRepository.saveAndFlush(receipt))
+                        .message("Receipt is successfully updated in the database.")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("There is no receipt against this id that you want to update")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
                         .build();
             }
         } catch (Exception e) {

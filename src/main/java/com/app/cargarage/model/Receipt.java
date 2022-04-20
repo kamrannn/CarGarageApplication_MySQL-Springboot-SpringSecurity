@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "receipts")
 public class Receipt {
@@ -21,6 +22,8 @@ public class Receipt {
     private double repairOperationsAmount;
     private double inspectionAmount;
     private double partsAmount;
+
+    private double totalAmountOfRepairing;
 
     @ManyToMany(targetEntity = RepairOperations.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     List<RepairOperations> repairOperationsList = new ArrayList<>();
