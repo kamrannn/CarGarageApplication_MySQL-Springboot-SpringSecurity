@@ -24,4 +24,14 @@ public class CustomerController {
     public ResponseDto listOfCustomers() {
         return customerService.listOfCustomers();
     }
+
+    @PutMapping("/update")
+    public ResponseDto update(@RequestBody Customer customer) {
+        return customerService.updateCustomer(customer);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseDto delete(@RequestParam(name = "customerId") long customerId) {
+        return customerService.deleteCustomer(customerId);
+    }
 }

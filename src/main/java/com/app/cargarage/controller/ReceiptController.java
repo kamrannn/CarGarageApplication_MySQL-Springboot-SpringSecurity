@@ -1,12 +1,11 @@
 package com.app.cargarage.controller;
 
 import com.app.cargarage.dto.ResponseDto;
+import com.app.cargarage.model.Part;
+import com.app.cargarage.model.Receipt;
 import com.app.cargarage.service.ReceiptServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/receipts")
@@ -32,5 +31,15 @@ public class ReceiptController {
     @GetMapping("/getReceiptsByLicensePlate")
     public ResponseDto getReceiptsByLicensePlate(@RequestParam(name = "licensePlate") String licensePlate) {
         return receiptService.getReceiptsByLicensePlate(licensePlate);
+    }
+
+    @PutMapping("/update")
+    public ResponseDto update(@RequestBody Receipt updatedReceipt) {
+        return receiptService.updateReceipt(updatedReceipt);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseDto delete(@RequestParam(name = "receiptId") long receiptId) {
+        return receiptService.deleteReceipt(receiptId);
     }
 }

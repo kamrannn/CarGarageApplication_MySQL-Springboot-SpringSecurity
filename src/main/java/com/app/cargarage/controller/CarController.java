@@ -1,6 +1,7 @@
 package com.app.cargarage.controller;
 
 import com.app.cargarage.dto.ResponseDto;
+import com.app.cargarage.model.Appointment;
 import com.app.cargarage.model.Car;
 import com.app.cargarage.service.CarServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -49,5 +50,15 @@ public class CarController {
     @GetMapping("/document/getByLicensePlate/{licensePlate}")
     public ResponseEntity<byte[]> getDocumentsByCarLicensePlate(@PathVariable(name = "licensePlate") String licensePlate) {
         return carService.getDocumentsByCarLicensePlate(licensePlate);
+    }
+
+    @PutMapping("/update")
+    public ResponseDto update(@RequestBody Car updatedCar) {
+        return carService.updateCar(updatedCar);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseDto delete(@RequestParam(name = "licensePlate") String licensePlate) {
+        return carService.deleteCar(licensePlate);
     }
 }
