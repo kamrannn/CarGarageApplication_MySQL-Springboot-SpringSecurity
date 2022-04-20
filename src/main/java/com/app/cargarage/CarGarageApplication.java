@@ -42,6 +42,14 @@ public class CarGarageApplication {
                     .password(encoder.encode("employee"))
                     .role("ROLE_EMPLOYEE")
                     .build());
+
+            userService.insertUsersOnRuntime(User.builder()
+                    .id(4)
+                    .fullName("Emma_Watson")
+                    .username("mechanic")
+                    .password(encoder.encode("mechanic"))
+                    .role("ROLE_MECHANIC")
+                    .build());
         };
     }
 }

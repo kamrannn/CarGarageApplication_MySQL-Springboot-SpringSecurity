@@ -30,9 +30,7 @@ public class Car implements Serializable {
     @JsonBackReference
     Customer customer;
 
-
     @ManyToMany(targetEntity = RepairOperations.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "mechanic_id", referencedColumnName = "id")
     List<RepairOperations> repairOperationsList = new ArrayList<>();
 
     @ManyToMany(targetEntity = Part.class, fetch = FetchType.LAZY)

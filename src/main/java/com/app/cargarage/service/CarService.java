@@ -25,5 +25,6 @@ public interface CarService {
     ResponseDto updateCar(Car car);
 
     ResponseDto getAllRepairedCarsList();
+
     ResponseDto getAllUnRepairedCarsList();
 }

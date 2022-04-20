@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/receipts/**", "/repairSchedule/**").hasAnyRole("CASHIER", "ADMIN")
                 .antMatchers("/parts/**", "/repairOperations").hasAnyRole("EMPLOYEE", "ADMIN")
+                .antMatchers("/vouchers/**", "/car/installPartsInCar/**", "/car/addRepairingActionsInCar/**").hasAnyRole("MECHANIC", "ADMIN")
                 .antMatchers("/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
