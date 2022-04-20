@@ -84,5 +84,4 @@ public class RepairOperationsServiceTest {
         when(repairOperationsRepository.findById(repairOperation.getId())).thenReturn(Optional.of(repairOperation));
         assertEquals(200, repairOperationsService.deleteRepairOperation(1).getStatusCode());
     }
-
 }
