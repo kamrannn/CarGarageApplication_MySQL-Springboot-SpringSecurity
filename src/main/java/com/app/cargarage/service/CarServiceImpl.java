@@ -167,6 +167,64 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public ResponseDto deleteCar(String carLicensePlate) {
+        try {
+            Car car = carRepository.getCarByLicensePlate(carLicensePlate);
+            if (car != null) {
+                car.setCarDocument(null);
+                car.setCustomer(null);
+                car.setPartsList(null);
+                car.setRepairOperationsList(null);
+                carRepository.saveAndFlush(car);
+                carRepository.delete(car);
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("Car is successfully deleted from the database.")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("There is no car against this id")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public ResponseDto updateCar(Car car) {
+        try {
+            Car existingCar = carRepository.getById(car.getId());
+            if (existingCar != null) {
+                return ResponseDto.builder()
+                        .result(carRepository.saveAndFlush(car))
+                        .message("Car is successfully updated in the database.")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("There is no existing car against this id that you want to update")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
     public ResponseDto addCar(Car car) {
         try {
             car.setCustomer(customerRepository.save(car.getCustomer()));
@@ -236,4 +294,5 @@ public class CarServiceImpl implements CarService {
                     .build();
         }
     }
+
 }

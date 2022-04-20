@@ -26,4 +26,14 @@ public class AppointmentController {
     public ResponseDto listOfAppointments() {
         return appointmentService.listOfAppointments();
     }
+
+    @PutMapping("/update")
+    public ResponseDto update(@RequestBody Appointment updatedAppointment) {
+        return appointmentService.updateAppointment(updatedAppointment);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseDto delete(@RequestParam(name = "appointmentId") long appointmentId) {
+        return appointmentService.deleteAppointment(appointmentId);
+    }
 }

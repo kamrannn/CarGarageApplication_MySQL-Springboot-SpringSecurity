@@ -19,4 +19,8 @@ public interface CarService {
     ResponseDto addRepairingActionsInCar(String carLicensePlate, long repairingActionId);
 
     ResponseDto installPartsInCar(String carLicensePlate, long partId);
+
+    ResponseDto deleteCar(String carLicensePlate);
+
+    ResponseDto updateCar(Car car);
 }
