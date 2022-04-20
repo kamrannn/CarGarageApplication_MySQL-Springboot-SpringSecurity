@@ -70,12 +70,65 @@ public class PartServiceImpl implements PartService {
                 return ResponseDto.builder()
                         .result(partRepository.save(part.get()))
                         .message("New stock amount has been added to the database")
-                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .statusCode(HttpStatus.OK.value())
                         .build();
             } else {
                 return ResponseDto.builder()
                         .result(null)
                         .message("There is no Part against this Id")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public ResponseDto deletePart(long partId) {
+        try {
+            Optional<Part> part = partRepository.findById(partId);
+            if (part.isPresent()) {
+                partRepository.delete(part.get());
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("Part is successfully deleted from the database.")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("There is no part against this id")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public ResponseDto updatePart(Part part) {
+        try {
+            Optional<Part> existingPart = partRepository.findById(part.getId());
+            if (existingPart.isPresent()) {
+                return ResponseDto.builder()
+                        .result(partRepository.saveAndFlush(part))
+                        .message("Part is successfully updated in the database.")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(null)
+                        .message("There is no part against this id that you want to update")
                         .statusCode(HttpStatus.NOT_FOUND.value())
                         .build();
             }
