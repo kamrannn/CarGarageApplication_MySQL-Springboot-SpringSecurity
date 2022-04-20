@@ -61,4 +61,14 @@ public class CarController {
     public ResponseDto delete(@RequestParam(name = "licensePlate") String licensePlate) {
         return carService.deleteCar(licensePlate);
     }
+
+    @GetMapping("/list/repairedCars")
+    public ResponseDto listOfRepairedCars() {
+        return carService.getAllRepairedCarsList();
+    }
+
+    @GetMapping("/list/unRepairedCars")
+    public ResponseDto listOfUnRepairedCars() {
+        return carService.getAllUnRepairedCarsList();
+    }
 }

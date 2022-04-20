@@ -225,6 +225,58 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public ResponseDto getAllRepairedCarsList() {
+        try {
+            List<Car> repairedCarsList = carRepository.findAllByRepairStatusIgnoreCase("repaired");
+            if (repairedCarsList.isEmpty()) {
+                return ResponseDto.builder()
+                        .result(repairedCarsList)
+                        .message("There is no car repaired yet in the database")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(repairedCarsList)
+                        .message("This is the list of repaired cars that are in the database")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
+    public ResponseDto getAllUnRepairedCarsList() {
+        try {
+            List<Car> repairedCarsList = carRepository.findAllByRepairStatusIgnoreCase("Under Repairing");
+            if (repairedCarsList.isEmpty()) {
+                return ResponseDto.builder()
+                        .result(repairedCarsList)
+                        .message("There is no car that requires repairing yet in the database")
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .build();
+            } else {
+                return ResponseDto.builder()
+                        .result(repairedCarsList)
+                        .message("This is the list of un repaired cars that are in the database")
+                        .statusCode(HttpStatus.OK.value())
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .result(null)
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+        }
+    }
+
+    @Override
     public ResponseDto addCar(Car car) {
         try {
             car.setCustomer(customerRepository.save(car.getCustomer()));

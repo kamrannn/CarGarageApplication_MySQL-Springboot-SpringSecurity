@@ -23,4 +23,7 @@ public interface CarService {
     ResponseDto deleteCar(String carLicensePlate);
 
     ResponseDto updateCar(Car car);
+
+    ResponseDto getAllRepairedCarsList();
+    ResponseDto getAllUnRepairedCarsList();
 }
